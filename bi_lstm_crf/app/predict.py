@@ -64,7 +64,7 @@ class WordsTagger:
             tokens_ = [(sentence[s:e], label) for (s, label), (e, _) in zip(begins[:-1], begins[1:]) if label]
             return [((t, tag) if tag else t) for t, tag in tokens_]
 
-        tokens_list = [_tokens(sentence, ts) for sentence, ts in zip(sentences, tags_list)]
+        tokens_list = [_tokens(s, ts) for sentence, ts in zip(sentences, tags_list) for s in sentence.split()]
         return tokens_list
 
 

@@ -100,7 +100,7 @@ class Preprocessor:
 
     def sent_to_vector(self, sentence, max_seq_len=0):
         max_seq_len = max_seq_len if max_seq_len > 0 else len(sentence)
-        vec = [self.vocab_dict.get(c, self.OOV_IDX) for c in sentence[:max_seq_len]]
+        vec = [self.vocab_dict.get(c, self.OOV_IDX) for c in sentence.split()[:max_seq_len]]
         return vec + [self.PAD_IDX] * (max_seq_len - len(vec))
 
     def tags_to_vector(self, tags, max_seq_len=0):
@@ -121,6 +121,7 @@ class Preprocessor:
                 try:
                     if sentence[0] == "[":
                         sentence = json.loads(sentence)
+                    sentence = sentence.split()
                     tags = json.loads(tags)
                     xs.append(self.sent_to_vector(sentence, max_seq_len=max_seq_len))
                     ys.append(self.tags_to_vector(tags, max_seq_len=max_seq_len))
